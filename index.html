@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="Styles/Styles.css">
+    </head>
+    <body>
+        <div>
+            <header>
+                <div>
+                    Сайт для поиска пасты №1 в СГТУ
+                </div>
+            </header>
+            <div style="display:flex;background-color:blanchedalmond">
+                <main class="BoxContainer"></main>
+                <form id="FilterForm" action="GET" style="width:500px;height:800px;background-color:burlywood;">
+                    <fieldset>
+                        <legend>Тип пасты</legend>
+                        <div>
+                            <input name="PasteType" form="FilterForm" type="radio" id="TypeButton1" value="Profilactic">
+                                <label for="TypeButton1">Профилактическая</label>
+                            <input name="PasteType" form="FilterForm" type="radio" id="TypeButton2" value="Healthcare">
+                                <label for="TypeButton2">Лечебная</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="DiagnosesFieldset"></fieldset>//JS fills this fieldset
+                </form>
+            </div>
+            <footer>
+                <div>
+                    Сделано В. К. в мае 2022 года
+                </div>
+            </footer>
+        </div>
+        <script src="Scripts/Main.js"></script>
+    </body>
+</html>
