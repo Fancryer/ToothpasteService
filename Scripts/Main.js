@@ -45,48 +45,13 @@ function AddToothpasteBox
     ToothpasteName="Toothpaste name",
     Diagnoses=["Профилактика"],
     HasFluorine=false,
-    ImageSRC="https://www.ubuy.vn/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNzFON3BPbGtTWUwuX1NMMTUwMF8uanBn.jpg"
+    ImageSRC="../Resources/Images/ColgateBlue.jpg",
+    Manufacturer=""
 )
 {
     let PastContainer=document.querySelector("main");
     let DiagnArr=Diagnoses.join(", ");
-    function FindManufacturerByToothpasteName(ToothpasteName)
-    {
-        const MyManufacturersArr=
-        {
-            Babool:"Babool, Индия",
-            Binaca:"Binaca, Индия",
-            BlueM:"BlueM, Нидерланды",
-            BioMinF:"BioMin F, Великобритания",
-            BioMinC:"BioMin C, Великобритания",
-            BioMinFKids:"BioMin F for Kids, Великобритания",
-            Close_up:"Close-up, США",
-            Colgate:"Colgate, США",
-            Crest:"Crest, США",
-            Dabur:"Dabur, Индия",
-            Darlie:"Darlie, Гонконг",
-            Doramad:"Doramad Radioactive Toothpaste, Германия",
-            Elmex:"Elmex, Швейцария",
-            Oral_B:"Oral-B, США",
-            Pepsodent:"Pepsodent, США"
-        };
-        const PastesArr=
-        {
-            "Colgate blue":MyManufacturersArr.Colgate,
-            "Colgate red":MyManufacturersArr.Colgate,
-            "Colgate green":MyManufacturersArr.Colgate,
-            "Colgate yellow":MyManufacturersArr.Colgate,
-            "Pepsodent yellow":MyManufacturersArr.Pepsodent,
-            "Doramad Xtasy":MyManufacturersArr.Doramad,
-            "Oral-B Pro-Line":MyManufacturersArr.Oral_B
-        };
-        for(let key in PastesArr)
-        {
-            let val=PastesArr[key];
-            if(key==ToothpasteName)return val;
-        }
-        return "Название пасты";
-    }
+    console.log(Manufacturer);
     PastContainer.insertAdjacentHTML
     (
         "beforeend",
@@ -99,7 +64,7 @@ function AddToothpasteBox
                 ></img>
                 <div class="ToothpasteDetails">
                     <div class="Diagnosis">Диагноз${Diagnoses.length-1?"ы":""}: ${DiagnArr}</div>
-                    <div class="Manufacturer">Производитель: ${FindManufacturerByToothpasteName(ToothpasteName)}</div>
+                    <div class="Manufacturer">Производитель: ${Manufacturer}</div>
                     <div class="Fluorine">${HasFluorine?"Со фтором":"Без фтора"}</div>
                 </div>
             </div>
@@ -111,12 +76,13 @@ class Toothpaste
 {
     constructor
     (
-        Name="НазваниеПасты",
-        Diagnoses=["Диагноз1","Диагноз2"],
-        Manufacturer="Производитель пасты, Страна",
+        Name="Colgate blue",
+        Diagnoses=["Профилактика"],
+        Manufacturer="asd",//Colgate, США,
         HasFluorine=false,
         StomaType="Зубная паста",
-        Profilactic=false
+        Profilactic=false,
+        ImageSRC="./Resources/Images/ColgateBlue.jpg"
     )
     {
         this.Name=Name;
@@ -125,18 +91,19 @@ class Toothpaste
         this.HasFluorine=HasFluorine;
         this.StomaType=StomaType;
         this.Profilactic=Profilactic;
+        this.ImageSRC=ImageSRC;
     }
 }
 
-const Pastes=
+let Pastes=
 [
-    new Toothpaste("Colgate blue",["Флюороз","Пульпит"],ManufacturersArr[Colgate],false,undefined,true),
-    new Toothpaste("Colgate red",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true),
-    new Toothpaste("Colgate green",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true),
-    new Toothpaste("Colgate yellow",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true),
-    new Toothpaste("Pepsodent yellow",["Кариес","Пульпит"],ManufacturersArr[Pepsodent],false,undefined,true),
-    new Toothpaste("Pepsodent Turquoise",[],ManufacturersArr[Pepsodent],false,undefined,true),
-    new Toothpaste("Doramad Xtasy",["Профилактика"],ManufacturersArr[Doramad],true,undefined,false),
+    new Toothpaste("Colgate blue",["Флюороз","Пульпит"],ManufacturersArr["Colgate"],false,undefined,true),
+    new Toothpaste("Colgate red",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true,"./Resources/Images/ColgateRed.jpg"),
+    new Toothpaste("Colgate green",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true,"./Resources/Images/ColgateGreen.jpg"),
+    new Toothpaste("Colgate yellow",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true,"./Resources/Images/ColgateYellow.jpg"),
+    new Toothpaste("Pepsodent Kids Orange",["Кариес","Пульпит"],ManufacturersArr.Pepsodent,false,undefined,true,"./Resources/Images/PepsodentOrange.webp"),
+    new Toothpaste("Pepsodent Charcoal White",[],ManufacturersArr[Pepsodent],false,undefined,true,"./Resources/Images/PepsodentCharcoalWhite.jpg"),
+    new Toothpaste("Doramad Xtasy",[],ManufacturersArr[Doramad],true,undefined,false),
     new Toothpaste("Oral-B Pro-Line",["Кариес","Пульпит"],ManufacturersArr[Oral_B],false,undefined,true)
 ];
 
@@ -161,7 +128,14 @@ function InitPage()
     }
     for(let i=0;i<Pastes.length;++i)
     {
-        AddToothpasteBox(Pastes[i].Name,Pastes[i].Diagnoses,Pastes[i].HasFluorine);
+        AddToothpasteBox
+        (
+            Pastes[i].Name,
+            Pastes[i].Diagnoses,
+            Pastes[i].HasFluorine,
+            Pastes[i].ImageSRC,
+            Pastes[i].Manufacturer
+        );
     }
 }
 
