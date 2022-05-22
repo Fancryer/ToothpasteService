@@ -51,6 +51,7 @@ div.Name
 {
     font-size:1.5rem;
     width:300px;
+    margin-top:10px;
 }
 
 div.ToothpasteBox
@@ -59,7 +60,7 @@ div.ToothpasteBox
     flex-direction:column;
     flex-wrap:wrap;
     justify-content:space-between;
-    width:300px;
+    width:320px;
     height:240px;
     padding:5px;
     margin-right:10px;
@@ -91,7 +92,7 @@ div.ToothpasteDetails
     justify-content:space-between;
     margin-left:2px;
     margin-right:2px;
-    width:110px;
+    width:130px;
     height:180px;
 }
 
@@ -99,7 +100,4 @@ div.Diagnosis{width:100%;overflow:ellipsis;}
 div.Manufacturer{width:100%;overflow:ellipsis;}
 div.Fluorine{width:100%;overflow:ellipsis;padding-bottom:30px;}
 
-label[for="Diagnosis"] 
-{
-    width:200px;
-}
+label[for="Diagnosis"]{width:220px;}

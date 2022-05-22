@@ -21,24 +21,35 @@ const DiagnosesArr=
     "Стоматит"
 ];
 
-const ManufacturersArr=
-[
-    Babool="Babool, Индия",
-    Binaca="Binaca, Индия",
-    BlueM="BlueM, Нидерланды",
-    BioMinF="BioMin F, Великобритания",
-    BioMinC="BioMin C, Великобритания",
-    BioMinFKids="BioMin F for Kids, Великобритания",
-    Close_up="Close-up, США",
-    Colgate="Colgate, США",
-    Crest="Crest, США",
-    Dabur="Dabur, Индия",
-    Darlie="Darlie, Гонконг",
-    Doramad="Doramad Radioactive Toothpaste, Германия",
-    Elmex="Elmex, Швейцария",
-    Oral_B="Oral-B, США",
-    Pepsodent="Pepsodent, США"
-];
+class ManufacturersContainer
+{
+    constructor()
+    {
+        this.ManufacturersArray=
+        {
+            Babool:"Babool, Индия",
+            Binaca:"Binaca, Индия",
+            BlueM:"BlueM, Нидерланды",
+            BioMinF:"BioMin F, Великобритания",
+            BioMinC:"BioMin C, Великобритания",
+            BioMinFKids:"BioMin F for Kids, Великобритания",
+            Close_up:"Close-up, США",
+            Colgate:"Colgate, США",
+            Crest:"Crest, США",
+            Dabur:"Dabur, Индия",
+            Darlie:"Darlie, Гонконг",
+            Doramad:"Doramad R. T., Германия",
+            Elmex:"Elmex, Швейцария",
+            Oral_B:"Oral-B, США",
+            Pepsodent:"Pepsodent, США"
+        };
+        this.GetManufacturerNameAndCountry=(ManufacturerShort="Colgate")=>this.ManufacturersArray[ManufacturerShort];
+        this.GetAllManufacturers=()=>Object.values(this.ManufacturersArray);
+    }
+}
+
+const MainManufacturersContainer=new ManufacturersContainer;
+
 
 function AddToothpasteBox
 (
@@ -46,7 +57,7 @@ function AddToothpasteBox
     Diagnoses=["Профилактика"],
     HasFluorine=false,
     ImageSRC="../Resources/Images/ColgateBlue.jpg",
-    Manufacturer=""
+    Manufacturer="Colgate, США"
 )
 {
     let PastContainer=document.querySelector("main");
@@ -80,52 +91,85 @@ class Toothpaste
         Diagnoses=["Профилактика"],
         Manufacturer="asd",//Colgate, США,
         HasFluorine=false,
-        StomaType="Зубная паста",
-        Profilactic=false,
         ImageSRC="./Resources/Images/ColgateBlue.jpg"
     )
     {
         this.Name=Name;
         this.Diagnoses=Diagnoses.length?Diagnoses:["Профилактика"];
-        this.Manufacturer=Manufacturer;
+        this.Manufacturer=MainManufacturersContainer.GetManufacturerNameAndCountry(Manufacturer);
         this.HasFluorine=HasFluorine;
-        this.StomaType=StomaType;
-        this.Profilactic=Profilactic;
         this.ImageSRC=ImageSRC;
     }
 }
 
-let Pastes=
+const Pastes=
 [
-    new Toothpaste("Colgate blue",["Флюороз","Пульпит"],ManufacturersArr["Colgate"],false,undefined,true),
-    new Toothpaste("Colgate red",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true,"./Resources/Images/ColgateRed.jpg"),
-    new Toothpaste("Colgate green",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true,"./Resources/Images/ColgateGreen.jpg"),
-    new Toothpaste("Colgate yellow",["Кариес","Пульпит"],ManufacturersArr[Colgate],false,undefined,true,"./Resources/Images/ColgateYellow.jpg"),
-    new Toothpaste("Pepsodent Kids Orange",["Кариес","Пульпит"],ManufacturersArr.Pepsodent,false,undefined,true,"./Resources/Images/PepsodentOrange.webp"),
-    new Toothpaste("Pepsodent Charcoal White",[],ManufacturersArr[Pepsodent],false,undefined,true,"./Resources/Images/PepsodentCharcoalWhite.jpg"),
-    new Toothpaste("Doramad Xtasy",[],ManufacturersArr[Doramad],true,undefined,false),
-    new Toothpaste("Oral-B Pro-Line",["Кариес","Пульпит"],ManufacturersArr[Oral_B],false,undefined,true)
+    new Toothpaste
+    (
+        "Colgate blue",
+        ["Флюороз","Пульпит"],
+        "Colgate",
+        false
+    ),
+    new Toothpaste("Colgate red",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateRed.jpg"),
+    new Toothpaste("Colgate green",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateGreen.jpg"),
+    new Toothpaste("Colgate yellow",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateYellow.jpg"),
+    new Toothpaste("Pepsodent Kids Orange",["Кариес","Пульпит"],"Pepsodent",false,"./Resources/Images/PepsodentOrange.webp"),
+    new Toothpaste("Pepsodent Charcoal White",[],"Pepsodent",false,"./Resources/Images/PepsodentCharcoalWhite.jpg"),
+    new Toothpaste("Doramad Xtasy",[],"Doramad",true,"./Resources/Images/DoramadXtasy.jpg"),
+    new Toothpaste("Oral-B Pro-Expert",["Кариес","Пульпит"],"Oral_B",false,"./Resources/Images/Oral_BProExpert.jpeg")
 ];
 
 function InitPage()
 {
-    let DiagnosesFieldset=document.querySelector("fieldset#DiagnosesFieldset");
-    DiagnosesFieldset.insertAdjacentHTML
-    (
-        "beforeend",
-        `<legend>Диагноз</legend>`
-    );
-    for(let i=0;i<DiagnosesArr.length;++i)
+    let InitDiagnosesFieldset=()=>
     {
+        let DiagnosesFieldset=document.querySelector("fieldset#DiagnosesFieldset");
         DiagnosesFieldset.insertAdjacentHTML
         (
             "beforeend",
-            `<div name="DiagnosisDiv">
-                <input name="Diagnosis" form="FilterForm" type="checkbox" id="Diagn${i}">
-                <label for="Diagn${i}">${DiagnosesArr[i]}</label>
-            </div>\n`
-        )
-    }
+            `<legend>Диагноз</legend>\n`
+        );
+        for(let i=0;i<DiagnosesArr.length;++i)
+        {
+            DiagnosesFieldset.insertAdjacentHTML
+            (
+                "beforeend",
+                `<div name="DiagnosisDiv">
+                    <input name="Diagnosis" form="FilterForm" type="checkbox" id="Diagn${i}">
+                    <label for="Diagn${i}">${DiagnosesArr[i]}</label>
+                </div>\n`
+            )
+        }
+    };
+    InitDiagnosesFieldset();
+    let InitManufacturersFieldset=()=>
+    {
+        let ManufacturersFieldset=document.querySelector("fieldset#ManufacturersFieldset");
+        ManufacturersFieldset.insertAdjacentHTML
+        (
+            "beforeend",
+            `<legend>Производитель</legend>
+            <input list="ManufacturersList" placeholder="Начните набирать...">
+            <datalist id="ManufacturersList">`
+        );
+        let Manufacturers=MainManufacturersContainer.GetAllManufacturers();
+        for(let i=0;i<Manufacturers.length;++i)
+        {
+            ManufacturersFieldset.insertAdjacentHTML
+            (
+                "beforeend",`<option value="${Manufacturers[i]}">${Manufacturers[i]}</option>`
+            );
+            console.log(Manufacturers[i]);
+        };
+        ManufacturersFieldset.insertAdjacentHTML
+        (
+            "beforeend",
+            `</datalist>
+            Использовать только этот цвет<input type="checkbox" checked title="Использовать только этот цвет">`
+            );
+    };
+    InitManufacturersFieldset();
     for(let i=0;i<Pastes.length;++i)
     {
         AddToothpasteBox
@@ -136,6 +180,7 @@ function InitPage()
             Pastes[i].ImageSRC,
             Pastes[i].Manufacturer
         );
+        console.log(Pastes[i]);
     }
 }
 
