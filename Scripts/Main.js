@@ -135,7 +135,7 @@ function InitPage()
             DiagnosesFieldset.insertAdjacentHTML
             (
                 "beforeend",
-                `<div name="DiagnosisDiv">
+                `<div name="DiagnosisDiv" style="display:flex;min-height:25px;">
                     <input name="Diagnosis" form="FilterForm" type="checkbox" id="Diagn${i}">
                     <label for="Diagn${i}">${DiagnosesArr[i]}</label>
                 </div>\n`
@@ -145,29 +145,19 @@ function InitPage()
     InitDiagnosesFieldset();
     let InitManufacturersFieldset=()=>
     {
-        let ManufacturersFieldset=document.querySelector("fieldset#ManufacturersFieldset");
-        ManufacturersFieldset.insertAdjacentHTML
-        (
-            "beforeend",
-            `<legend>Производитель</legend>
-            <input list="ManufacturersList" placeholder="Начните набирать...">
-            <datalist id="ManufacturersList">`
-        );
         let Manufacturers=MainManufacturersContainer.GetAllManufacturers();
+        let ManufacturersFieldSet=document.querySelector("fieldset#ManufacturersFieldset");
         for(let i=0;i<Manufacturers.length;++i)
         {
-            ManufacturersFieldset.insertAdjacentHTML
+            ManufacturersFieldSet.insertAdjacentHTML
             (
-                "beforeend",`<option value="${Manufacturers[i]}">${Manufacturers[i]}</option>`
+                "beforeend",
+                `<div name="ManufacturerDiv" style="display:flex;min-height:20px;padding-bottom:10px">
+                    <input name="Manufacturer" form="FilterForm" type="checkbox" id="Manufacturer${i}">
+                    <label for="Manufacturer${i}">${Manufacturers[i]}</label>
+                </div>\n`
             );
-            console.log(Manufacturers[i]);
         };
-        ManufacturersFieldset.insertAdjacentHTML
-        (
-            "beforeend",
-            `</datalist>
-            Использовать только этот цвет<input type="checkbox" checked title="Использовать только этот цвет">`
-            );
     };
     InitManufacturersFieldset();
     for(let i=0;i<Pastes.length;++i)

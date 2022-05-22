@@ -11,7 +11,7 @@
             </header>
             <div style="display:flex;background-color:blanchedalmond">
                 <main class="BoxContainer"></main>
-                <form id="FilterForm" action="GET" style="width:510px;height:1200px;background-color:burlywood;overflow-y:scroll;overflow-x:unset">
+                <form id="FilterForm" action="GET" style="width:510px;height:600px;background-color:burlywood;overflow-y:scroll">
                     <fieldset>
                         <legend>Присутствие фтора</legend>
                         <div>
@@ -33,8 +33,9 @@
                             <option value="18+"></option>
                         </datalist>
                     </fieldset>
-                    <fieldset id="ManufacturersFieldset"></fieldset><!--JS fills this fieldset-->
+                    <fieldset id="ManufacturersFieldset"><legend>Производитель</legend></fieldset><!--JS fills this fieldset-->
                     <fieldset id="DiagnosesFieldset"></fieldset><!--JS fills this fieldset-->
+                    <input type="submit" value="Фильтровать">
                 </form>
             </div>
             <footer>

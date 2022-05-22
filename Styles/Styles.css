@@ -12,6 +12,7 @@ main
 body
 {
     background-color:#b5cbdf;
+    /*margin:0;*/
 }
 
 header
@@ -40,7 +41,7 @@ main.BoxContainer
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
-    align-items:flex-start;
+    align-items:space-evenly;
     padding-left:15px;
     padding-right:15px;
     padding-top:10px;
