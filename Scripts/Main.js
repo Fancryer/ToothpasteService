@@ -104,13 +104,8 @@ class Toothpaste
 
 const Pastes=
 [
-    new Toothpaste
-    (
-        "Colgate blue",
-        ["Флюороз","Пульпит"],
-        "Colgate",
-        false
-    ),
+    //(Name:string,Diagnoses:string[],Manufacturer:string,HasFluorine:boolean,ImageSRC:string)
+    new Toothpaste("Colgate blue",["Флюороз","Пульпит"],"Colgate",false),
     new Toothpaste("Colgate red",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateRed.jpg"),
     new Toothpaste("Colgate green",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateGreen.jpg"),
     new Toothpaste("Colgate yellow",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateYellow.jpg"),
