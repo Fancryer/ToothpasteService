@@ -16,6 +16,8 @@
                         <fieldset>
                             <legend>Присутствие фтора</legend>
                             <div>
+                                <input name="HasFluorine" form="FilterForm" type="radio" id="FluorineIndif" value="Indif" checked>
+                                    <label for="FluorineIndif">Не имеет значения</label>
                                 <input name="HasFluorine" form="FilterForm" type="radio" id="FluorineTrue" value="True">
                                     <label for="FluorineTrue">Со фтором</label>
                                 <input name="HasFluorine" form="FilterForm" type="radio" id="FluorineFalse" value="False">
@@ -37,7 +39,7 @@
                         <fieldset id="ManufacturersFieldset"><legend>Производитель</legend></fieldset><!--JS fills this fieldset-->
                         <fieldset id="DiagnosesFieldset"></fieldset><!--JS fills this fieldset-->
                     </form>
-                    <button>Фильтровать</button>
+                    <button onclick="FilterBoxes();">Фильтровать</button>
                 </div>
             </div>
             <footer>

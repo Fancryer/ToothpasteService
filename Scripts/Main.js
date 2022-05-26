@@ -1,5 +1,7 @@
 "Use strict";
 
+let colog=(str)=>console.log(str);
+
 const DiagnosesArr=
 [
     "Кариес",
@@ -50,7 +52,6 @@ class ManufacturersContainer
 
 const MainManufacturersContainer=new ManufacturersContainer;
 
-
 function AddToothpasteBox
 (
     ToothpasteName="Toothpaste name",
@@ -62,7 +63,7 @@ function AddToothpasteBox
 {
     let PastContainer=document.querySelector("main");
     let DiagnArr=Diagnoses.join(", ");
-    console.log(Manufacturer);
+    colog(Manufacturer);
     PastContainer.insertAdjacentHTML
     (
         "beforeend",
@@ -165,8 +166,34 @@ function InitPage()
             Pastes[i].ImageSRC,
             Pastes[i].Manufacturer
         );
-        console.log(Pastes[i]);
+        colog(Pastes[i]);
     }
+    FilterBoxes();
 }
 
 InitPage();
+
+function FilterBoxes()
+{
+    function FilterFluorine()
+    {
+        let FluorineChecked=document.querySelector("input[type=radio]:checked").id;
+        if(FluorineChecked=="FluorineTrue")FluorineChecked=true;
+        else if(FluorineChecked=="FluorineFalse")FluorineChecked=false;
+        else FluorineChecked=null;
+        colog(FluorineChecked);
+        let ToothpasteBox=document.querySelectorAll("div.ToothpasteBox");colog(ToothpasteBox.length);
+        ToothpasteBox.forEach((element,i)=>{element.style.display=FluorineChecked==null||Pastes[i].HasFluorine==FluorineChecked?"flex":"none";});
+        colog(ToothpasteBox.length);
+    }
+    FilterFluorine();
+    function FilterManufacturers()
+    {
+        let Manufacturers=MainManufacturersContainer.GetAllManufacturers();
+        let ManufacturersCheckboxes=[];
+        colog(Manufacturers);
+        for(let i=0;i<Manufacturers.length;++i){ManufacturersCheckboxes.push(document.querySelector(`#Manufacturer${i}`).checked);}
+        colog(ManufacturersCheckboxes);
+    }
+    FilterManufacturers();
+}
