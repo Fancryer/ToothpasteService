@@ -149,7 +149,7 @@ function InitPage()
             (
                 "beforeend",
                 `<div name="ManufacturerDiv" style="display:flex;min-height:20px;padding-bottom:10px">
-                    <input name="Manufacturer" form="FilterForm" type="checkbox" id="Manufacturer${i}">
+                    <input name="Manufacturer" form="FilterForm" type="checkbox" id="Manufacturer${i}" checked>
                     <label for="Manufacturer${i}">${Manufacturers[i]}</label>
                 </div>\n`
             );
@@ -175,6 +175,7 @@ InitPage();
 
 function FilterBoxes()
 {
+    let ToothpasteBox=document.querySelectorAll("div.ToothpasteBox");
     function FilterFluorine()
     {
         let FluorineChecked=document.querySelector("input[type=radio]:checked").id;
@@ -182,7 +183,7 @@ function FilterBoxes()
         else if(FluorineChecked=="FluorineFalse")FluorineChecked=false;
         else FluorineChecked=null;
         colog(FluorineChecked);
-        let ToothpasteBox=document.querySelectorAll("div.ToothpasteBox");colog(ToothpasteBox.length);
+        colog(ToothpasteBox.length);
         ToothpasteBox.forEach((element,i)=>{element.style.display=FluorineChecked==null||Pastes[i].HasFluorine==FluorineChecked?"flex":"none";});
         colog(ToothpasteBox.length);
     }
@@ -192,8 +193,28 @@ function FilterBoxes()
         let Manufacturers=MainManufacturersContainer.GetAllManufacturers();
         let ManufacturersCheckboxes=[];
         colog(Manufacturers);
-        for(let i=0;i<Manufacturers.length;++i){ManufacturersCheckboxes.push(document.querySelector(`#Manufacturer${i}`).checked);}
+        for(let i=0;i<Manufacturers.length;++i)
+        {
+            let checkbox=document.querySelector(`#Manufacturer${i}`).checked;
+            if(checkbox)ManufacturersCheckboxes.push(Manufacturers[i]);
+        }
         colog(ManufacturersCheckboxes);
+        for(let i=0;i<ToothpasteBox.length;++i)
+        {
+            //div.ToothpasteRow->div.ToothpasteDetails->div.Manufacturer
+            let CurrentManifacturer=ToothpasteBox[i].children.item(1).children.item(1).children.item(1);
+            colog(CurrentManifacturer);
+            let Found=false;
+            for(let m=0;m<ManufacturersCheckboxes.length;++m)
+            {
+                if(ManufacturersCheckboxes[m]==CurrentManifacturer.innerHTML.split(": ")[1])
+                {
+                    CurrentManifacturer.parentElement.parentElement.parentElement.style.display="flex";
+                    colog("Yes");Found=true;break;
+                }
+            }
+            if(!Found)CurrentManifacturer.parentElement.parentElement.parentElement.style.display="none";
+        }
     }
     FilterManufacturers();
 }
