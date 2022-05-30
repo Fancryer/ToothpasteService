@@ -104,20 +104,19 @@ class Toothpaste
 
 const Pastes=
 [
-    new Toothpaste
-    (
-        "Colgate blue",
-        ["Флюороз","Пульпит"],
-        "Colgate",
-        false
-    ),
+    //(Name:string,Diagnoses:string[],Manufacturer:string,HasFluorine:boolean,ImageSRC:string)
+    new Toothpaste("Colgate blue",["Флюороз","Пульпит"],"Colgate",false),
     new Toothpaste("Colgate red",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateRed.jpg"),
     new Toothpaste("Colgate green",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateGreen.jpg"),
     new Toothpaste("Colgate yellow",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateYellow.jpg"),
     new Toothpaste("Pepsodent Kids Orange",["Кариес","Пульпит"],"Pepsodent",false,"./Resources/Images/PepsodentOrange.webp"),
     new Toothpaste("Pepsodent Charcoal White",[],"Pepsodent",false,"./Resources/Images/PepsodentCharcoalWhite.jpg"),
     new Toothpaste("Doramad Xtasy",[],"Doramad",true,"./Resources/Images/DoramadXtasy.jpg"),
-    new Toothpaste("Oral-B Pro-Expert",["Кариес","Пульпит"],"Oral_B",false,"./Resources/Images/Oral_BProExpert.jpeg")
+    new Toothpaste("Oral-B Pro-Expert",["Кариес","Пульпит"],"Oral_B",false,"./Resources/Images/Oral_BProExpert.jpeg"),
+    new Toothpaste("Colgate blue",["Флюороз","Пульпит"],"Colgate",false),
+    new Toothpaste("Colgate red",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateRed.jpg"),
+    new Toothpaste("Colgate green",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateGreen.jpg"),
+    new Toothpaste("Colgate yellow",["Кариес","Пульпит"],"Colgate",false,"./Resources/Images/ColgateYellow.jpg")
 ];
 
 function InitPage()
