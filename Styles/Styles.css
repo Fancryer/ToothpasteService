@@ -46,6 +46,7 @@ main.BoxContainer
     padding-right:15px;
     padding-top:10px;
     padding-bottom:10px;
+    width:calc(100vw - 510px);
 }
 
 div.Name
@@ -69,6 +70,8 @@ div.ToothpasteBox
     background-color:#b5cbdf;
     border-radius:5% 2% 5% 2%;
 }
+
+div.ToothpasteBox.hidden{display:none;}
 
 img.PastImage
 {
