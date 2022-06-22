@@ -58,7 +58,9 @@ function AddToothpasteBox
     Diagnoses=["Профилактика"],
     HasFluorine=false,
     ImageSRC="../Resources/Images/ColgateBlue.jpg",
-    Manufacturer="Colgate, США"
+    Manufacturer="Colgate, США",
+    ConsumerAge="Для всех возрастов",
+    NeedToBright=false
 )
 {
     let PastContainer=document.querySelector("main");
@@ -70,10 +72,13 @@ function AddToothpasteBox
         `<div class="ToothpasteBox">
             <div class="Name">${ToothpasteName}</div>
             <div class="ToothpasteRow">
-                <img
-                    class="PastImage"
-                    src=${ImageSRC}
-                ></img>
+                <div style="position:relative">
+                    <img
+                        class="PastImage"
+                        src=${ImageSRC}
+                    ></img>
+                    <div style="position:absolute;bottom:5%;left:5%;color:${NeedToBright?"white":"black"}">${ConsumerAge}</div>
+                </div>
                 <div class="ToothpasteDetails">
                     <div class="Diagnosis">Диагноз${Diagnoses.length-1?"ы":""}: ${DiagnArr}</div>
                     <div class="Manufacturer">Производитель: ${Manufacturer}</div>
@@ -150,7 +155,7 @@ const Pastes=
     ),
     new Toothpaste
     (
-        "Colgate green",["Кариес","Пульпит"],"Colgate",true,"./Resources/Images/ColgateGreen.jpg","8-12"
+        "Colgate green",["Кариес","Пульпит"],"Colgate",true,"./Resources/Images/ColgateGreen.jpg","Для всех возрастов"
     ),
     new Toothpaste
     (
@@ -206,7 +211,9 @@ function InitPage()
             Pastes[i].Diagnoses,
             Pastes[i].HasFluorine,
             Pastes[i].ImageSRC,
-            Pastes[i].Manufacturer
+            Pastes[i].Manufacturer,
+            Pastes[i].ConsumerAge,
+            ["Doramad Xtasy"].includes(Pastes[i].Name)
         );
         colog(Pastes[i]);
     }
@@ -234,93 +241,88 @@ function FilterBoxes()
             colog(`${DeservedVisibility?"\tFluorine matches!":"\tFluorine doesn't match..."}`);
             
             //Filter by age
-            if(!(["3-5","5-8","8-12","12-16","16-18","18+","Любой"].includes(SelectedAge)||SelectedAge==""))DeservedVisibility=false;
+            if(!(["3-5","5-8","8-12","12-16","16-18","18+","Для всех возрастов"].includes(SelectedAge)||SelectedAge==""))DeservedVisibility=false;
             colog(`${DeservedVisibility?"\t\tAge matches!":"\t\tAge doesn't match..."}`);
             element.style.display=DeservedVisibility?"flex":"none";
         }
     )
-
-
-
-
-
-
-
-
-
-
-    /*
-    let ToothpasteBox=document.querySelectorAll("div.ToothpasteBox");
-    function FilterFluorine()
-    {
-        let FluorineChecked=document.querySelector("input[type=radio]:checked").id;
-        if(FluorineChecked=="FluorineTrue")FluorineChecked=true;
-        else if(FluorineChecked=="FluorineFalse")FluorineChecked=false;
-        else FluorineChecked=null;
-        colog(FluorineChecked);
-        colog(ToothpasteBox.length);
-        ToothpasteBox.forEach((element,i)=>{element.style.display=FluorineChecked==null||Pastes[i].HasFluorine==FluorineChecked?"flex":"none";});
-        colog(ToothpasteBox.length);
-    }
-    FilterFluorine();
-    function FilterManufacturers()
-    {
-        let Manufacturers=MainManufacturersContainer.GetAllManufacturers();
-        let ManufacturersCheckboxes=[];
-        colog(Manufacturers);
-        for(let i=0;i<Manufacturers.length;++i)
-        {
-            let checkbox=document.querySelector(`#Manufacturer${i}`).checked;
-            if(checkbox)ManufacturersCheckboxes.push(Manufacturers[i]);
-        }
-        colog(ManufacturersCheckboxes);
-        for(let i=0;i<ToothpasteBox.length;++i)
-        {
-            //div.ToothpasteRow->div.ToothpasteDetails->div.Manufacturer
-            let CurrentManifacturer=ToothpasteBox[i].children.item(1).children.item(1).children.item(1);
-            colog(CurrentManifacturer);
-            let Found=false;
-            for(let m=0;m<ManufacturersCheckboxes.length;++m)
-            {
-                if(ManufacturersCheckboxes[m]==CurrentManifacturer.innerHTML.split(": ")[1])
-                {
-                    CurrentManifacturer.parentElement.parentElement.parentElement.style.display="flex";
-                    colog("Yes");Found=true;break;
-                }
-            }
-            if(!Found)CurrentManifacturer.parentElement.parentElement.parentElement.style.display="none";
-        }
-    }
-    FilterManufacturers();
-    function FilterDiagnoses()
-    {
-        let Diagnoses=DiagnosesArr;
-        let DiagnosesCheckboxes=[];
-        colog(Diagnoses);
-        for(let i=0;i<Diagnoses.length;++i)
-        {
-            let diagn=document.querySelector(`#Diagn${i}`);
-            let checkbox=diagn.checked;
-            if(checkbox&&diagn.style.display!="none")DiagnosesCheckboxes.push(Diagnoses[i]);
-        }
-        colog(DiagnosesCheckboxes);
-        for(let i=0;i<ToothpasteBox.length;++i)
-        {
-            //div.ToothpasteRow->div.ToothpasteDetails->div.Manufacturer
-            let CurrentDiagnose=ToothpasteBox[i].children.item(1).children.item(1).children.item(1);
-            colog(CurrentDiagnose);
-            let Found=false;
-            for(let m=0;m<DiagnosesCheckboxes.length;++m)
-            {
-                if(DiagnosesCheckboxes[m]==CurrentDiagnose.innerHTML.split(": ")[1])
-                {
-                    CurrentDiagnose.parentElement.parentElement.parentElement.style.display="flex";
-                    colog("Yes");Found=true;break;
-                }
-            }
-            if(!Found)CurrentDiagnose.parentElement.parentElement.parentElement.style.display="none";
-        }
-    }
-    FilterDiagnoses();
-    */
 }
+
+
+
+
+
+/*
+let ToothpasteBox=document.querySelectorAll("div.ToothpasteBox");
+function FilterFluorine()
+{
+    let FluorineChecked=document.querySelector("input[type=radio]:checked").id;
+    if(FluorineChecked=="FluorineTrue")FluorineChecked=true;
+    else if(FluorineChecked=="FluorineFalse")FluorineChecked=false;
+    else FluorineChecked=null;
+    colog(FluorineChecked);
+    colog(ToothpasteBox.length);
+    ToothpasteBox.forEach((element,i)=>{element.style.display=FluorineChecked==null||Pastes[i].HasFluorine==FluorineChecked?"flex":"none";});
+    colog(ToothpasteBox.length);
+}
+FilterFluorine();
+function FilterManufacturers()
+{
+    let Manufacturers=MainManufacturersContainer.GetAllManufacturers();
+    let ManufacturersCheckboxes=[];
+    colog(Manufacturers);
+    for(let i=0;i<Manufacturers.length;++i)
+    {
+        let checkbox=document.querySelector(`#Manufacturer${i}`).checked;
+        if(checkbox)ManufacturersCheckboxes.push(Manufacturers[i]);
+    }
+    colog(ManufacturersCheckboxes);
+    for(let i=0;i<ToothpasteBox.length;++i)
+    {
+        //div.ToothpasteRow->div.ToothpasteDetails->div.Manufacturer
+        let CurrentManifacturer=ToothpasteBox[i].children.item(1).children.item(1).children.item(1);
+        colog(CurrentManifacturer);
+        let Found=false;
+        for(let m=0;m<ManufacturersCheckboxes.length;++m)
+        {
+            if(ManufacturersCheckboxes[m]==CurrentManifacturer.innerHTML.split(": ")[1])
+            {
+                CurrentManifacturer.parentElement.parentElement.parentElement.style.display="flex";
+                colog("Yes");Found=true;break;
+            }
+        }
+        if(!Found)CurrentManifacturer.parentElement.parentElement.parentElement.style.display="none";
+    }
+}
+FilterManufacturers();
+function FilterDiagnoses()
+{
+    let Diagnoses=DiagnosesArr;
+    let DiagnosesCheckboxes=[];
+    colog(Diagnoses);
+    for(let i=0;i<Diagnoses.length;++i)
+    {
+        let diagn=document.querySelector(`#Diagn${i}`);
+        let checkbox=diagn.checked;
+        if(checkbox&&diagn.style.display!="none")DiagnosesCheckboxes.push(Diagnoses[i]);
+    }
+    colog(DiagnosesCheckboxes);
+    for(let i=0;i<ToothpasteBox.length;++i)
+    {
+        //div.ToothpasteRow->div.ToothpasteDetails->div.Manufacturer
+        let CurrentDiagnose=ToothpasteBox[i].children.item(1).children.item(1).children.item(1);
+        colog(CurrentDiagnose);
+        let Found=false;
+        for(let m=0;m<DiagnosesCheckboxes.length;++m)
+        {
+            if(DiagnosesCheckboxes[m]==CurrentDiagnose.innerHTML.split(": ")[1])
+            {
+                CurrentDiagnose.parentElement.parentElement.parentElement.style.display="flex";
+                colog("Yes");Found=true;break;
+            }
+        }
+        if(!Found)CurrentDiagnose.parentElement.parentElement.parentElement.style.display="none";
+    }
+}
+FilterDiagnoses();
+*/
