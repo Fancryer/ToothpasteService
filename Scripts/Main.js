@@ -1,27 +1,6 @@
-"Use strict";
+"use strict";
 
 let colog=(str)=>console.log(str);
-
-const DiagnosesArr=
-[
-    "Кариес",
-    "Пульпит",
-    "Периодонтит",
-    "Гингивит",
-    "Пародонтит",
-    "Пародонтоз",
-    "Киста зуба",
-    "Абсцесс зуба",
-    "Эрозия эмали",
-    "Гипоплазия эмали",
-    "Гиперестезия",
-    "Флюороз",//БЕЗ ВСЯКОГО ФТОРА!
-    "Появление пигментации",//Отбеливающая паста
-    "Образование зубного камня или налета",
-    "Клиновидные дефекты",
-    "Некроз",//Паста, укрепляющая и восстанавливающая эмаль
-    "Стоматит"
-];
 
 class ManufacturersContainer
 {
@@ -45,12 +24,67 @@ class ManufacturersContainer
             Oral_B:"Oral-B, США",
             Pepsodent:"Pepsodent, США"
         };
-        this.GetManufacturerNameAndCountry=(ManufacturerShort="Colgate")=>this.ManufacturersArray[ManufacturerShort];
-        this.GetAllManufacturers=()=>Object.values(this.ManufacturersArray);
     }
+    GetManufacturerNameAndCountry(ManufacturerShort="Colgate"){return this.ManufacturersArray[ManufacturerShort]};
+    GetAllManufacturers(){return Object.values(this.ManufacturersArray)};
+    GetManufacturersCount(){return Object.keys(this.ManufacturersArray).length};
+    GetSelectedManufacturers()
+    {
+        let Manufacturers=[];
+        for(let i=0;i<this.GetManufacturersCount();++i)
+        {
+            let IteratedManufacturer=document.querySelector(`div[name="ManufacturerDiv${i}"]`);
+            if(IteratedManufacturer.children[1].checked)Manufacturers.push(IteratedManufacturer.children[0].innerHTML);
+        }
+        colog(Manufacturers);
+        return Manufacturers;
+    };
+}
+
+class DiagnosesContainer
+{
+    constructor()
+    {
+        this.DiagnosesArray=
+        [
+            "Кариес",
+            "Пульпит",
+            "Периодонтит",
+            "Гингивит",
+            "Пародонтит",
+            "Пародонтоз",
+            "Киста зуба",
+            "Абсцесс зуба",
+            "Эрозия эмали",
+            "Гипоплазия эмали",
+            "Гиперестезия",
+            "Флюороз",                              //БЕЗ ВСЯКОГО ФТОРА!
+            "Появление пигментации",                //Отбеливающая паста
+            "Образование зубного камня или налета",
+            "Клиновидные дефекты",
+            "Некроз",                               //Паста, укрепляющая и восстанавливающая эмаль
+            "Стоматит",
+            "Профилактика"
+        ];
+    }
+    GetAllDiagnoses(){return this.DiagnosesArray};
+    GetDiagnosesCount(){return this.DiagnosesArray.length};
+    GetDiagnosisByIndex(Index){return this.DiagnosesArray[Index]}
+    GetSelectedDiagnoses()
+    {
+        let Diagnoses=[];
+        for(let i=0;i<this.GetDiagnosesCount();++i)
+        {
+            let IteratedDiagnosis=document.querySelector(`div[name="DiagnosisDiv${i}"]`);
+            if(IteratedDiagnosis.children[1].checked)Diagnoses.push(IteratedDiagnosis.children[0].innerHTML);
+        }
+        colog(Diagnoses);
+        return Diagnoses;
+    };
 }
 
 const MainManufacturersContainer=new ManufacturersContainer;
+const MainDiagnosesContainer=new DiagnosesContainer;
 
 function AddToothpasteBox
 (
@@ -173,14 +207,14 @@ function InitPage()
             "beforeend",
             `<legend>Диагноз</legend>\n`
         );
-        for(let i=0;i<DiagnosesArr.length;++i)
+        for(let i=0;i<MainDiagnosesContainer.GetDiagnosesCount();++i)
         {
             DiagnosesFieldset.insertAdjacentHTML
             (
                 "beforeend",
-                `<div name="DiagnosisDiv" style="display:flex;min-height:25px;">
+                `<div name="DiagnosisDiv${i}" style="display:flex;min-height:25px;">
+                    <label>${MainDiagnosesContainer.GetDiagnosisByIndex(i)}</label>
                     <input name="Diagnosis" form="FilterForm" type="checkbox" id="Diagn${i}" checked>
-                    <label for="Diagn${i}">${DiagnosesArr[i]}</label>
                 </div>\n`
             )
         }
@@ -195,9 +229,9 @@ function InitPage()
             ManufacturersFieldSet.insertAdjacentHTML
             (
                 "beforeend",
-                `<div name="ManufacturerDiv" style="display:flex;min-height:20px;padding-bottom:10px">
+                `<div name="ManufacturerDiv${i}" style="display:flex;min-height:20px;padding-bottom:10px">
+                    <label>${Manufacturers[i]}</label>
                     <input name="Manufacturer" form="FilterForm" type="checkbox" id="Manufacturer${i}" checked>
-                    <label for="Manufacturer${i}">${Manufacturers[i]}</label>
                 </div>\n`
             );
         };
@@ -227,22 +261,33 @@ function FilterBoxes()
     let ToothpasteBox=document.querySelectorAll("div.ToothpasteBox");
     let FluorineChecked=document.querySelector("input[type=radio]:checked").id;
     FluorineChecked=FluorineChecked=="FluorineTrue"?true:FluorineChecked=="FluorineFalse"?false:null;
+    let SelectedAge=document.querySelector("input[list=AgeList]").value;
+    let SelectedManufacturers=MainManufacturersContainer.GetSelectedManufacturers();
+    let SelectedDiagnoses=MainDiagnosesContainer.GetSelectedDiagnoses();
+
 
     ToothpasteBox.forEach
     (
         (element,i)=>
         {
-            let DeservedVisibility=true;
-            let SelectedAge=document.querySelector("input[list=AgeList]").value;
-            
-            colog(`Index: ${i}`);
+            colog(`Index: ${i} (${element.children[0].innerHTML})`);
+
             //Filter by fluorine
-            if(!(FluorineChecked==Pastes[i].HasFluorine||FluorineChecked==null))DeservedVisibility=false;
+            let DeservedVisibility=FluorineChecked==Pastes[i].HasFluorine||FluorineChecked==null;
             colog(`${DeservedVisibility?"\tFluorine matches!":"\tFluorine doesn't match..."}`);
             
             //Filter by age
-            if(!(["3-5","5-8","8-12","12-16","16-18","18+","Для всех возрастов"].includes(SelectedAge)||SelectedAge==""))DeservedVisibility=false;
+            DeservedVisibility&&=[Pastes[i].ConsumerAge,"","Для всех возрастов"].includes(SelectedAge);
             colog(`${DeservedVisibility?"\t\tAge matches!":"\t\tAge doesn't match..."}`);
+
+            //Filter by manufacturer
+            DeservedVisibility&&=SelectedManufacturers?SelectedManufacturers.includes(Pastes[i].Manufacturer):false;
+            colog(`${DeservedVisibility?"\t\t\tManufacturer matches!":"\t\t\tManufacturer doesn't match..."}`);
+            
+            //Filter by diagnosis
+            DeservedVisibility&&=SelectedDiagnoses?Pastes[i].Diagnoses.some(item=>SelectedDiagnoses.includes(item)):false;
+            colog(`${DeservedVisibility?"\t\t\t\tDiagnosis matches!":"\t\t\t\tDiagnosis doesn't match..."}`);
+
             element.style.display=DeservedVisibility?"flex":"none";
         }
     )
