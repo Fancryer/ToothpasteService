@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="Styles/Styles.css">
+        <!--<script src="Scripts/lzma/src/lzma_worker.js"></script>-->
     </head>
     <body>
         <div>
@@ -12,11 +13,11 @@
             <div style="display:flex;background-color:blanchedalmond;">
                 <main class="BoxContainer"></main>
                 <div style="display:flex;flex-direction:column;width:510px;">
-                    <form id="FilterForm" action="GET" style="height:600px;background-color:burlywood;overflow-y:scroll">
+                    <div id="FilterForm" style="height:600px;background-color:burlywood;overflow-y:scroll">
                         <fieldset>
                             <legend>Присутствие фтора</legend>
                             <div>
-                                <input name="HasFluorine" form="FilterForm" type="radio" id="FluorineIndif" value="Indif" checked>
+                                <input name="HasFluorine" form="FilterForm" type="radio" id="FluorineIndif" value="Indif">
                                     <label for="FluorineIndif">Не имеет значения</label>
                                 <input name="HasFluorine" form="FilterForm" type="radio" id="FluorineTrue" value="True">
                                     <label for="FluorineTrue">Со фтором</label>
@@ -37,10 +38,12 @@
                                 <option value="Для всех возрастов"></option>
                             </datalist>
                         </fieldset>
-                        <fieldset id="ManufacturersFieldset"><legend>Производитель</legend></fieldset><!--JS fills this fieldset-->
+                        <fieldset id="ManufacturersFieldset"></fieldset><!--JS fills this fieldset-->
                         <fieldset id="DiagnosesFieldset"></fieldset><!--JS fills this fieldset-->
-                    </form>
-                    <button onclick="FilterBoxes();">Фильтровать</button>
+                        <fieldset id="TastesFieldset"></fieldset><!--JS fills this fieldset-->
+                    </div>
+                    <button onclick="MainPageFiller.FilterBoxes();">Отфильтровать</button>
+                    <!--<button onclick="MainPageFiller.RefreshBoxes();">Сбросить</button>-->
                 </div>
             </div>
             <footer>
